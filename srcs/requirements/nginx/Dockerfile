@@ -2,6 +2,11 @@ FROM alpine:3.21
 
 WORKDIR /app
 
-COPY . .
+RUN ["apk", "add", "nginx"]
 
-CMD ["echo", "Hello, Container!"]
+COPY ./nginx.conf /etc/nginx
+COPY ./tools/index.html .
+
+EXPOSE 443
+
+CMD ["nginx", "-g", "daemon off;"]

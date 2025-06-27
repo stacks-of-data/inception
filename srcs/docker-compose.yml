@@ -1,0 +1,13 @@
+services:
+  nginx:
+    build: ./requirements/nginx
+    ports:
+      - "443:443"
+    secrets:
+      - nginx_private_key
+      - nginx_crt
+secrets:
+  nginx_crt:
+    file: ../secrets/amsaleh.42.fr.crt
+  nginx_private_key:
+    file: ../secrets/amsaleh.42.fr.key
