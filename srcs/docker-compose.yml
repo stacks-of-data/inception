@@ -8,6 +8,13 @@ services:
       - nginx_crt
     env_file:
       - .env
+  mariadb:
+    build: ./requirements/mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/amsaleh/data/mariadb-data:/etc/data
+
 secrets:
   nginx_crt:
     file: ../secrets/amsaleh.42.fr.crt
