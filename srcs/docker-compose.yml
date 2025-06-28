@@ -6,6 +6,8 @@ services:
     secrets:
       - nginx_private_key
       - nginx_crt
+    env_file:
+      - .env
 secrets:
   nginx_crt:
     file: ../secrets/amsaleh.42.fr.crt
