@@ -8,12 +8,14 @@ services:
       - nginx_crt
     env_file:
       - .env
+    restart: unless-stopped
   mariadb:
     build: ./requirements/mariadb
     ports:
       - "3306:3306"
     volumes:
-      - /home/amsaleh/data/mariadb-data:/etc/data
+      - /home/amsaleh/data/mariadb-data:/var/lib/mysql
+    restart: unless-stopped
 
 secrets:
   nginx_crt:
