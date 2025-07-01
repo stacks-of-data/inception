@@ -55,7 +55,7 @@ start_temp_mariadb_server
 mariadb -uroot --skip-ssl << EOF
     ALTER USER 'root'@'localhost' IDENTIFIED VIA unix_socket OR mysql_native_password USING PASSWORD('$ROOT_PASS');
     CREATE DATABASE IF NOT EXISTS wordpress;
-    CREATE USER IF NOT EXISTS 'wordpress'@'wordpress.dbnetwork' IDENTIFIED BY '$WORDPRESS_PASS';
+    CREATE OR REPLACE USER 'wordpress'@'wordpress.dbnetwork' IDENTIFIED BY '$WORDPRESS_PASS';
     GRANT ALL ON wordpress.* TO 'wordpress'@'wordpress.dbnetwork';
 EOF
 shutdown_temp_mariadb_server
