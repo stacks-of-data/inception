@@ -1,0 +1,11 @@
+[server]
+[mysqld]
+[embedded]
+
+[mariadb]
+max_connections = 10
+max_connect_errors = 3
+connect_timeout = 3
+bind-address = 0.0.0.0
+
+[mariadb-10.5]

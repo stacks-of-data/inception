@@ -13,6 +13,8 @@ services:
     build: ./requirements/mariadb
     ports:
       - "3306:3306"
+    secrets:
+      - mariadb_root_pass
     volumes:
       - /home/amsaleh/data/mariadb-data:/var/lib/mysql
     restart: unless-stopped
@@ -22,3 +24,5 @@ secrets:
     file: ../secrets/amsaleh.42.fr.crt
   nginx_private_key:
     file: ../secrets/amsaleh.42.fr.key
+  mariadb_root_pass:
+    file: ../secrets/mariadb_root_pass
