@@ -1,5 +1,6 @@
 services:
   nginx:
+    container_name: nginx
     build: ./requirements/nginx
     ports:
       - "443:443"
@@ -8,16 +9,35 @@ services:
       - nginx_crt
     env_file:
       - .env
+    networks:
+      - webnetwork
+    restart: unless-stopped
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    networks:
+      - webnetwork
+      - dbnetwork
     restart: unless-stopped
   mariadb:
+    container_name: mariadb
     build: ./requirements/mariadb
-    ports:
-      - "3306:3306"
     secrets:
       - mariadb_root_pass
+      - mariadb_wordpress_pass
     volumes:
       - /home/amsaleh/data/mariadb-data:/var/lib/mysql
+    networks:
+      - dbnetwork
     restart: unless-stopped
+
+networks:
+  webnetwork:
+    name: webnetwork
+    driver: "bridge"
+  dbnetwork:
+    name: dbnetwork
+    driver: "bridge"
 
 secrets:
   nginx_crt:
@@ -26,3 +46,5 @@ secrets:
     file: ../secrets/amsaleh.42.fr.key
   mariadb_root_pass:
     file: ../secrets/mariadb_root_pass
+  mariadb_wordpress_pass:
+    file: ../secrets/mariadb_wordpress_pass
