@@ -4,6 +4,8 @@ services:
     build: ./requirements/nginx
     ports:
       - "443:443"
+    volumes:
+      - /home/amsaleh/data/wordpress:/var/www/wordpress
     secrets:
       - nginx_private_key
       - nginx_crt
@@ -15,6 +17,8 @@ services:
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
+    volumes:
+      - /home/amsaleh/data/wordpress:/var/www/wordpress
     networks:
       - webnetwork
       - dbnetwork
@@ -26,7 +30,7 @@ services:
       - mariadb_root_pass
       - mariadb_wordpress_pass
     volumes:
-      - /home/amsaleh/data/mariadb-data:/var/lib/mysql
+      - /home/amsaleh/data/mariadb:/var/lib/mysql
     networks:
       - dbnetwork
     restart: unless-stopped

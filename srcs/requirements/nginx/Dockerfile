@@ -7,12 +7,12 @@ ARG GROUPNAME="nginx-group"
 
 WORKDIR /app
 
-RUN apk add nginx && \
-    addgroup -g $GID -S $GROUPNAME && \
+RUN ["apk", "add", "--no-cache", "nginx"]
+RUN addgroup -g $GID -S $GROUPNAME && \
     adduser -S $USERNAME -u $UID $GROUPNAME && \
     chown -R $USERNAME:$GROUPNAME /var/log/nginx /var/lib/nginx /etc/nginx /run/nginx
 
-COPY ./.conf /etc/nginx
+COPY ./conf/.conf /etc/nginx
 COPY ./tools/index.html .
 
 EXPOSE 443
