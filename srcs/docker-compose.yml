@@ -19,6 +19,9 @@ services:
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
+    secrets:
+      - mariadb_wordpress_pass
+      - wordpress_admin_pass
     volumes:
       - /home/amsaleh/data/wordpress:/var/www/wordpress
     env_file:
@@ -56,3 +59,5 @@ secrets:
     file: ../secrets/mariadb_root_pass
   mariadb_wordpress_pass:
     file: ../secrets/mariadb_wordpress_pass
+  wordpress_admin_pass:
+    file: ../secrets/wordpress_admin_pass

@@ -5,3 +5,7 @@
 * https://mariadb.com/docs
 * https://daveiscoding.hashnode.dev/why-do-you-need-an-init-process-inside-your-docker-container-pid-1
 * https://github.com/MariaDB/mariadb-docker
+* https://snicco.io/blog/wordpress-salts
+* http://wp-cli.org/
+* https://make.wordpress.org/cli/handbook/guides/quick-start/
+* https://www.scoutapm.com/blog/increase-php-memory-limit

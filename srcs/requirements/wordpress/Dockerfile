@@ -1,18 +1,21 @@
 FROM alpine:3.21
 
-WORKDIR /app
+WORKDIR /usr/local/bin
 
 ARG UID=10001
 ARG GID=10000
 ARG USERNAME="wordpress"
 ARG GROUPNAME="webserver"
 
-RUN ["apk", "add", "--no-cache", "php-fpm"]
+RUN ["apk", "add", "--no-cache", "php-fpm", "php-phar", "php-mysqli", "php-iconv"]
+RUN sed -i s/"memory_limit = 128M"/"memory_limit = 512M"/ /etc/php83/php.ini
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O wp \
+    && chmod 100 wp
 RUN addgroup -S $GROUPNAME -g $GID && \
     adduser -S $USERNAME -u $UID $GID
 
-COPY --chmod=700 ./tools/wordpress-entrypoint.sh /usr/local/bin
-COPY --chmod=640 ./conf/www.conf.template /etc/php83/php-fpm.d/www.conf.template
+COPY --chmod=700 --chown=root:root ./tools/wordpress-entrypoint.sh /usr/local/bin
+COPY --chmod=640 --chown=root:root ./conf/www.conf.template /etc/php83/php-fpm.d/www.conf.template
 
 EXPOSE 9000
 
