@@ -2,6 +2,8 @@ services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     volumes:
@@ -19,6 +21,8 @@ services:
     build: ./requirements/wordpress
     volumes:
       - /home/amsaleh/data/wordpress:/var/www/wordpress
+    env_file:
+      - .env
     networks:
       - webnetwork
       - dbnetwork
