@@ -19,9 +19,6 @@ COPY --chmod=640 --chown=root:root ./conf/www.conf.template /etc/php83/php-fpm.d
 
 EXPOSE 9000
 
-HEALTHCHECK --interval=2s --timeout=2s --start-period=2s --retries=30 \
-    CMD [ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1 || exit 1
-
 WORKDIR /var/www/wordpress
 
 ENTRYPOINT ["wordpress-entrypoint.sh"]
