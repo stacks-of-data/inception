@@ -3,7 +3,8 @@ services:
     container_name: nginx
     build: ./requirements/nginx
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     ports:
       - "443:443"
     volumes:
@@ -19,9 +20,13 @@ services:
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
+    depends_on:
+      mariadb:
+        condition: service_healthy
     secrets:
       - mariadb_wordpress_pass
       - wordpress_admin_pass
+      - wordpress_user0_pass
     volumes:
       - /home/amsaleh/data/wordpress:/var/www/wordpress
     env_file:
@@ -29,6 +34,11 @@ services:
     networks:
       - webnetwork
       - dbnetwork
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /tmp/wordpress-ready ] && cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
     restart: unless-stopped
   mariadb:
     container_name: mariadb
@@ -40,6 +50,11 @@ services:
       - /home/amsaleh/data/mariadb:/var/lib/mysql
     networks:
       - dbnetwork
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1 || exit 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
     restart: unless-stopped
 
 networks:
@@ -61,3 +76,5 @@ secrets:
     file: ../secrets/mariadb_wordpress_pass
   wordpress_admin_pass:
     file: ../secrets/wordpress_admin_pass
+  wordpress_user0_pass:
+    file: ../secrets/wordpress_user0_pass

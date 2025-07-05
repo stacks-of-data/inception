@@ -9,3 +9,6 @@
 * http://wp-cli.org/
 * https://make.wordpress.org/cli/handbook/guides/quick-start/
 * https://www.scoutapm.com/blog/increase-php-memory-limit
+* https://medium.com/@saklani1408/configuring-healthcheck-in-docker-compose-3fa6439ee280
+* https://geekjob.medium.com/quickly-test-fastcgi-1ddefcc4e82
+* https://en.wikipedia.org/wiki/Chaos_engineering

@@ -7,17 +7,22 @@ ARG GID=10000
 ARG USERNAME="wordpress"
 ARG GROUPNAME="webserver"
 
-RUN ["apk", "add", "--no-cache", "php-fpm", "php-phar", "php-mysqli", "php-iconv"]
+RUN ["apk", "add", "--no-cache", "php-fpm", "php-phar", "php-mysqli", "mysql-client", "php-iconv", "fcgi"]
 RUN sed -i s/"memory_limit = 128M"/"memory_limit = 512M"/ /etc/php83/php.ini
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O wp \
     && chmod 100 wp
 RUN addgroup -S $GROUPNAME -g $GID && \
     adduser -S $USERNAME -u $UID $GID
 
-COPY --chmod=700 --chown=root:root ./tools/wordpress-entrypoint.sh /usr/local/bin
+COPY --chmod=700 --chown=root:root ./tools/wordpress-entrypoint.sh .
 COPY --chmod=640 --chown=root:root ./conf/www.conf.template /etc/php83/php-fpm.d/www.conf.template
 
 EXPOSE 9000
+
+HEALTHCHECK --interval=2s --timeout=2s --start-period=2s --retries=30 \
+    CMD [ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1 || exit 1
+
+WORKDIR /var/www/wordpress
 
 ENTRYPOINT ["wordpress-entrypoint.sh"]
 
