@@ -12,3 +12,6 @@
 * https://medium.com/@saklani1408/configuring-healthcheck-in-docker-compose-3fa6439ee280
 * https://geekjob.medium.com/quickly-test-fastcgi-1ddefcc4e82
 * https://en.wikipedia.org/wiki/Chaos_engineering
+* https://man7.org/linux/man-pages/man2/chroot.2.html
+* https://unix.stackexchange.com/questions/323711/what-are-the-dangers-of-having-writable-chroot-directory-for-ftp
+* https://en.wikipedia.org/wiki/List_of_FTP_commands

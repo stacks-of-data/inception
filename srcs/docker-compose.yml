@@ -56,6 +56,19 @@ services:
       timeout: 2s
       retries: 30
     restart: unless-stopped
+  proftpd:
+    container_name: proftpd
+    build: ./requirements/bonus/proftpd
+    ports:
+      - 20-21:20-21
+      - 60000-60150:60000-60150
+    secrets:
+      - proftpd_login0_pass
+    volumes:
+      - /home/amsaleh/data/wordpress:/var/www/wordpress
+    env_file:
+      - .env
+    restart: unless-stopped
 
 networks:
   webnetwork:
@@ -78,3 +91,5 @@ secrets:
     file: ../secrets/wordpress_admin_pass
   wordpress_user0_pass:
     file: ../secrets/wordpress_user0_pass
+  proftpd_login0_pass:
+    file: ../secrets/proftpd_login0_pass

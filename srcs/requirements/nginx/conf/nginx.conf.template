@@ -6,6 +6,16 @@ events {
 
 http {
     server {
+        listen 443 ssl default_server;
+        server_name $DOMAIN_INFO_NAME;
+        ssl_certificate     /run/secrets/nginx_crt;
+        ssl_certificate_key /run/secrets/nginx_private_key;
+        ssl_protocols TLSv1.3;
+        root /var/www/info;
+
+        index index.html;
+    }
+    server {
         listen 443 ssl;
         server_name $DOMAIN_NAME;
         ssl_certificate     /run/secrets/nginx_crt;
