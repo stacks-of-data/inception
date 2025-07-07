@@ -2,12 +2,12 @@ FROM alpine:3.21
 
 WORKDIR /usr/local/bin
 
-ARG UID=10002
+ARG UID=10001
 ARG GID=10000
 ARG LOGIN0_USERNAME="crazy_user"
 ARG GROUPNAME="webserver"
 
-RUN ["apk", "add", "proftpd"]
+RUN ["apk", "--no-cache", "add", "proftpd"]
 
 RUN addgroup -S $GROUPNAME -g $GID && \
     adduser -D $LOGIN0_USERNAME -u $UID $GID

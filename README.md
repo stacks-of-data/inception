@@ -15,3 +15,4 @@
 * https://man7.org/linux/man-pages/man2/chroot.2.html
 * https://unix.stackexchange.com/questions/323711/what-are-the-dangers-of-having-writable-chroot-directory-for-ftp
 * https://en.wikipedia.org/wiki/List_of_FTP_commands
+* https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/

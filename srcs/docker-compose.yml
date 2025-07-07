@@ -15,7 +15,8 @@ services:
     env_file:
       - .env
     networks:
-      - webnetwork
+      - webnetwork_wp
+      - webnetwork_adminer
     restart: unless-stopped
   wordpress:
     container_name: wordpress
@@ -29,11 +30,13 @@ services:
       - wordpress_user0_pass
     volumes:
       - /home/amsaleh/data/wordpress:/var/www/wordpress
+      - /home/amsaleh/data/adminer:/var/www/adminer
     env_file:
       - .env
     networks:
-      - webnetwork
-      - dbnetwork
+      - webnetwork_wp
+      - dbnetwork_wp
+      - fpm_adminer
     healthcheck:
       test: ["CMD-SHELL", "[ -f /tmp/wordpress-ready ] && cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1"]
       interval: 2s
@@ -49,7 +52,8 @@ services:
     volumes:
       - /home/amsaleh/data/mariadb:/var/lib/mysql
     networks:
-      - dbnetwork
+      - dbnetwork_wp
+      - dbnetwork_adminer
     healthcheck:
       test: ["CMD-SHELL", "[ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1 || exit 1"]
       interval: 2s
@@ -69,13 +73,40 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    secrets:
+      - nginx_private_key
+      - nginx_crt
+    volumes:
+      - /home/amsaleh/data/adminer:/var/www/adminer
+    env_file:
+      - .env
+    networks:
+      - webnetwork_adminer
+      - fpm_adminer
+      - dbnetwork_adminer
+    restart: unless-stopped
 
 networks:
-  webnetwork:
-    name: webnetwork
+  webnetwork_wp:
+    name: webnetwork_wp
     driver: "bridge"
-  dbnetwork:
-    name: dbnetwork
+  dbnetwork_wp:
+    name: dbnetwork_wp
+    driver: "bridge"
+  webnetwork_adminer:
+    name: webnetwork_adminer
+    driver: "bridge"
+  fpm_adminer:
+    name: fpm_adminer
+    driver: "bridge"
+  dbnetwork_adminer:
+    name: dbnetwork_adminer
     driver: "bridge"
 
 secrets:
