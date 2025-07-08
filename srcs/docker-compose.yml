@@ -5,6 +5,8 @@ services:
     depends_on:
       wordpress:
         condition: service_healthy
+      adminer:
+        condition: service_healthy
     ports:
       - "443:443"
     volumes:
@@ -38,7 +40,7 @@ services:
       - dbnetwork_wp
       - fpm_adminer
     healthcheck:
-      test: ["CMD-SHELL", "[ -f /tmp/wordpress-ready ] && cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1"]
+      test: ["CMD-SHELL", "cgi-fcgi -bind -connect 127.0.0.1:9000"]
       interval: 2s
       timeout: 2s
       retries: 30
@@ -55,7 +57,7 @@ services:
       - dbnetwork_wp
       - dbnetwork_adminer
     healthcheck:
-      test: ["CMD-SHELL", "[ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1 || exit 1"]
+      test: ["CMD-SHELL", "[ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1"]
       interval: 2s
       timeout: 2s
       retries: 30
@@ -90,6 +92,11 @@ services:
       - webnetwork_adminer
       - fpm_adminer
       - dbnetwork_adminer
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider 127.0.0.1"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
     restart: unless-stopped
 
 networks:

@@ -46,6 +46,4 @@ sed -e s/'$WORDPRESS_USERNAME'/"$WORDPRESS_USERNAME"/ \
     -e s/'$WORDPRESS_GROUPNAME'/"$WORDPRESS_GROUPNAME"/ \
     < /etc/php83/php-fpm.d/www.conf.template > /etc/php83/php-fpm.d/www.conf
 
-touch /tmp/wordpress-ready
-
 exec "$@"
