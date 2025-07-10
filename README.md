@@ -16,3 +16,5 @@
 * https://unix.stackexchange.com/questions/323711/what-are-the-dangers-of-having-writable-chroot-directory-for-ftp
 * https://en.wikipedia.org/wiki/List_of_FTP_commands
 * https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+* https://redis.io/docs/latest/
+* https://github.com/pantheon-systems/wp-redis
