@@ -26,10 +26,13 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     secrets:
       - mariadb_wordpress_pass
       - wordpress_admin_pass
       - wordpress_user0_pass
+      - redis_server_pass
     volumes:
       - /home/amsaleh/data/wordpress:/var/www/wordpress
       - /home/amsaleh/data/adminer:/var/www/adminer
@@ -39,6 +42,7 @@ services:
       - webnetwork_wp
       - dbnetwork_wp
       - fpm_adminer
+      - redisnetwork
     healthcheck:
       test: ["CMD-SHELL", "cgi-fcgi -bind -connect 127.0.0.1:9000"]
       interval: 2s
@@ -98,6 +102,19 @@ services:
       timeout: 2s
       retries: 30
     restart: unless-stopped
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
+    secrets:
+      - redis_server_pass
+    networks:
+      - redisnetwork
+    healthcheck:
+      test: ["CMD-SHELL", "redis-healthcheck.sh"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    restart: unless-stopped
 
 networks:
   webnetwork_wp:
@@ -115,6 +132,9 @@ networks:
   dbnetwork_adminer:
     name: dbnetwork_adminer
     driver: "bridge"
+  redisnetwork:
+    name: redisnetwork
+    driver: "bridge"
 
 secrets:
   nginx_crt:
@@ -131,3 +151,5 @@ secrets:
     file: ../secrets/wordpress_user0_pass
   proftpd_login0_pass:
     file: ../secrets/proftpd_login0_pass
+  redis_server_pass:
+    file: ../secrets/redis_server_pass

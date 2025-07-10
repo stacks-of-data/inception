@@ -7,7 +7,7 @@ ARG GID=10000
 ARG USERNAME="wordpress"
 ARG GROUPNAME="webserver"
 
-RUN ["apk", "add", "--no-cache", "php-fpm", "php-phar", "php-mysqli", "mysql-client", "php-iconv", "php83-session", "php83-pecl-redis", "fcgi"]
+RUN ["apk", "add", "--no-cache", "php83-fpm", "php-phar", "php-mysqli", "mysql-client", "php-iconv", "php83-session", "php83-pecl-redis", "php83-tokenizer", "php83-ctype", "fcgi"]
 RUN sed -i s/"memory_limit = 128M"/"memory_limit = 512M"/ /etc/php83/php.ini
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O wp \
     && chmod 100 wp
@@ -15,7 +15,7 @@ RUN addgroup -S $GROUPNAME -g $GID && \
     adduser -S $USERNAME -u $UID $GID
 
 COPY --chmod=700 --chown=root:root ./tools/wordpress-entrypoint.sh .
-COPY --chmod=640 --chown=root:root ./conf/www.conf.template /etc/php83/php-fpm.d/www.conf.template
+COPY --chmod=640 --chown=root:root ./conf/www.conf /etc/php83/php-fpm.d
 
 EXPOSE 9000
 
