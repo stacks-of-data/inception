@@ -2,6 +2,7 @@ services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx
+    image: nginx
     depends_on:
       wordpress:
         condition: service_healthy
@@ -10,7 +11,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/amsaleh/data/wordpress:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     secrets:
       - nginx_private_key
       - nginx_crt
@@ -23,6 +24,7 @@ services:
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
+    image: wordpress
     depends_on:
       mariadb:
         condition: service_healthy
@@ -34,8 +36,8 @@ services:
       - wordpress_user0_pass
       - redis_server_pass
     volumes:
-      - /home/amsaleh/data/wordpress:/var/www/wordpress
-      - /home/amsaleh/data/adminer:/var/www/adminer
+      - wordpress:/var/www/wordpress
+      - adminer:/var/www/adminer
     env_file:
       - .env
     networks:
@@ -52,11 +54,12 @@ services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
+    image: mariadb
     secrets:
       - mariadb_root_pass
       - mariadb_wordpress_pass
     volumes:
-      - /home/amsaleh/data/mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - dbnetwork_wp
       - dbnetwork_adminer
@@ -69,19 +72,21 @@ services:
   proftpd:
     container_name: proftpd
     build: ./requirements/bonus/proftpd
+    image: proftpd
     ports:
       - 20-21:20-21
       - 60000-60150:60000-60150
     secrets:
       - proftpd_login0_pass
     volumes:
-      - /home/amsaleh/data/wordpress:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     env_file:
       - .env
     restart: unless-stopped
   adminer:
     container_name: adminer
     build: ./requirements/bonus/adminer
+    image: adminer
     depends_on:
       wordpress:
         condition: service_healthy
@@ -89,7 +94,7 @@ services:
       - nginx_private_key
       - nginx_crt
     volumes:
-      - /home/amsaleh/data/adminer:/var/www/adminer
+      - adminer:/var/www/adminer
     env_file:
       - .env
     networks:
@@ -105,6 +110,7 @@ services:
   redis:
     container_name: redis
     build: ./requirements/bonus/redis
+    image: redis
     secrets:
       - redis_server_pass
     networks:
@@ -135,6 +141,24 @@ networks:
   redisnetwork:
     name: redisnetwork
     driver: "bridge"
+
+volumes:
+  wordpress:
+    driver_opts:
+      type: local
+      o: bind
+      device: /home/amsaleh/data/wordpress
+  mariadb:
+    driver_opts:
+      type: local
+      o: bind
+      device: /home/amsaleh/data/mariadb
+  adminer:
+    driver_opts:
+      type: local
+      o: bind
+      device: /home/amsaleh/data/adminer
+
 
 secrets:
   nginx_crt:
