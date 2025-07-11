@@ -8,7 +8,7 @@ PING_OUTPUT=$(
 EOF
 )
 
-if [ "$PING_OUTPUT" = "PONG" ]; then
+if echo "$PING_OUTPUT" | grep -q "PONG"; then
     exit 0
 fi
 
