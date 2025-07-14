@@ -18,3 +18,5 @@
 * https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
 * https://redis.io/docs/latest/
 * https://github.com/pantheon-systems/wp-redis
+* https://jupyterlab.readthedocs.io/en/latest/
+* https://jupyter-server.readthedocs.io/en/latest/other/full-config.html

@@ -13,15 +13,17 @@ build:
 
 create-volumes:
 	@mkdir -p /home/amsaleh/data/wordpress \
-		/home/amsaleh/data/adminer /home/amsaleh/data/mariadb
+		/home/amsaleh/data/adminer \
+		/home/amsaleh/data/mariadb /home/amsaleh/data/jupyterlab
 
 clean-volumes:
 	@rm -rf /home/amsaleh/data/wordpress \
-		/home/amsaleh/data/adminer /home/amsaleh/data/mariadb
+		/home/amsaleh/data/adminer \
+		/home/amsaleh/data/mariadb /home/amsaleh/data/jupyterlab
 	@docker volume prune -a
 
 clean-images:
-	@docker rmi -f nginx wordpress mariadb proftpd adminer redis
+	@docker rmi -f nginx wordpress mariadb proftpd adminer redis jupyterlab
 
 clean-cache:
 	@docker system prune -f

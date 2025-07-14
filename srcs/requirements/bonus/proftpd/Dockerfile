@@ -8,7 +8,7 @@ ARG PROFTPD_USERNAME="proftpd"
 ARG LOGIN0_USERNAME="crazy_user"
 ARG GROUPNAME="webserver"
 
-RUN ["apk", "--no-cache", "add", "proftpd"]
+RUN ["apk", "--no-cache", "add", "proftpd", "inetutils-telnet"]
 
 RUN addgroup -S $GROUPNAME -g $GID && \
     adduser -D $LOGIN0_USERNAME -u $UID -G $GROUPNAME

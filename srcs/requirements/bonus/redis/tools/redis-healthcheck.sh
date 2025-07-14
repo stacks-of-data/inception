@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 REDIS_SERVER_PASS=$(< /run/secrets/redis_server_pass tr -d '\n')
 
 PING_OUTPUT=$(
