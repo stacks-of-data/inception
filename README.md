@@ -20,7 +20,3 @@
 * https://github.com/pantheon-systems/wp-redis
 * https://jupyterlab.readthedocs.io/en/latest/
 * https://jupyter-server.readthedocs.io/en/latest/other/full-config.html
-
-# TODO
-* Redis Presistance
-* run php-fpm as non-root

@@ -56,4 +56,4 @@ sed -i -e s/'$WORDPRESS_USERNAME'/"$WORDPRESS_USERNAME"/ \
     -e s/'$WORDPRESS_GROUPNAME'/"$WORDPRESS_GROUPNAME"/ \
     /etc/php83/php-fpm.d/www.conf
 
-exec "$@"
+exec su "$WORDPRESS_USERNAME" -s /bin/sh -c "$@"

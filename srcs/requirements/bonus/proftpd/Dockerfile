@@ -16,7 +16,7 @@ RUN addgroup -S $GROUPNAME -g $GID && \
 RUN ["mkdir", "/run/proftpd"]
 
 COPY --chmod=700 --chown=root:root ./tools/proftpd-entrypoint.sh .
-COPY --chmod=640 --chown=$PROFTPD_USERNAME:$PROFTPD_USERNAME ./conf/proftpd.conf /etc/proftpd
+COPY --chmod=640 --chown=$PROFTPD_USERNAME ./conf/proftpd.conf /etc/proftpd
 
 EXPOSE 20-21
 EXPOSE 60000-60150

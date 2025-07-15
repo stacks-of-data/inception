@@ -31,10 +31,11 @@ RUN source ~/default/bin/activate && \
     numpy pandas scipy matplotlib seaborn scikit-learn
 
 USER root
+WORKDIR /home/$USERNAME/working
+
+EXPOSE 8888
 
 ENTRYPOINT ["jupyterlab-entrypoint.sh"]
-
-WORKDIR /home/$USERNAME/working
 
 CMD source ../default/bin/activate && \
     jupyter lab --ip=0.0.0.0 --no-browser

@@ -64,4 +64,4 @@ shutdown_temp_mariadb_server
 
 touch /tmp/mariadb-ready
 
-exec "$@"
+exec su mysql -s /bin/sh -c "$@"

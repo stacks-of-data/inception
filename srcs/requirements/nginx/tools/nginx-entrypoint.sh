@@ -6,6 +6,7 @@ chown -R "$NGINX_USERNAME":"$NGINX_GROUPNAME" .
 
 sed -i -e s/'$DOMAIN_NAME'/"$DOMAIN_NAME"/ \
     -e s/'$DOMAIN_ADMINER_NAME'/"$DOMAIN_ADMINER_NAME"/ \
+    -e s/'$DOMAIN_LAB_NAME'/"$DOMAIN_LAB_NAME"/ \
     -e s/'$NGINX_USERNAME'/"$NGINX_USERNAME"/ \
     -e s/'$NGINX_GROUPNAME'/"$NGINX_GROUPNAME"/ \
     /etc/nginx/nginx.conf

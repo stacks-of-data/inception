@@ -14,12 +14,14 @@ build:
 create-volumes:
 	@mkdir -p /home/amsaleh/data/wordpress \
 		/home/amsaleh/data/adminer \
-		/home/amsaleh/data/mariadb /home/amsaleh/data/jupyterlab
+		/home/amsaleh/data/mariadb \
+		/home/amsaleh/data/redis /home/amsaleh/data/jupyterlab
 
 clean-volumes:
 	@rm -rf /home/amsaleh/data/wordpress \
 		/home/amsaleh/data/adminer \
-		/home/amsaleh/data/mariadb /home/amsaleh/data/jupyterlab
+		/home/amsaleh/data/mariadb \
+		/home/amsaleh/data/redis /home/amsaleh/data/jupyterlab
 	@docker volume prune -a
 
 clean-images:

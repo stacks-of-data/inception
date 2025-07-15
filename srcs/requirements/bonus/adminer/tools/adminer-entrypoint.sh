@@ -15,4 +15,4 @@ sed -i -e s/'$DOMAIN_ADMINER_NAME'/"$DOMAIN_ADMINER_NAME"/ \
     -e s/'$NGINX_GROUPNAME'/"$NGINX_GROUPNAME"/ \
     /etc/nginx/nginx.conf
 
-exec "$@"
+exec su "$NGINX_USERNAME" -s /bin/sh -c "$@"

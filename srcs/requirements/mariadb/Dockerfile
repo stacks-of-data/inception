@@ -11,4 +11,4 @@ EXPOSE 3306
 
 ENTRYPOINT ["mariadb-entrypoint.sh"]
 
-CMD ["mariadbd", "--user=mysql"]
+CMD mariadbd-safe

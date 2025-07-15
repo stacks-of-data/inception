@@ -20,11 +20,13 @@ services:
     networks:
       - webnetwork_wp
       - webnetwork_adminer
+      - webnetwork_jupyterlab
     healthcheck:
       test: ["CMD-SHELL", "wget --no-check-certificate -q --spider https://localhost"]
-      interval: 2s
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 5s
     restart: unless-stopped
   wordpress:
     container_name: wordpress
@@ -52,9 +54,10 @@ services:
       - redisnetwork
     healthcheck:
       test: ["CMD-SHELL", "cgi-fcgi -bind -connect 127.0.0.1:9000"]
-      interval: 2s
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
   mariadb:
     container_name: mariadb
@@ -70,9 +73,10 @@ services:
       - dbnetwork_adminer
     healthcheck:
       test: ["CMD-SHELL", "[ -f /tmp/mariadb-ready ] && mariadb-admin ping -uroot > /dev/null 2>&1"]
-      interval: 2s
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 5s
     restart: unless-stopped
   proftpd:
     container_name: proftpd
@@ -89,9 +93,10 @@ services:
       - .env
     healthcheck:
       test: ["CMD-SHELL", "telnet localhost ftp 0>/dev/null"]
-      interval: 2s
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 2s
     restart: unless-stopped
   adminer:
     container_name: adminer
@@ -112,10 +117,11 @@ services:
       - fpm_adminer
       - dbnetwork_adminer
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider localhost"]
-      interval: 2s
+      test: ["CMD-SHELL", "wget -q --spider localhost:8080"]
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 2s
     restart: unless-stopped
   redis:
     container_name: redis
@@ -123,20 +129,23 @@ services:
     image: redis
     secrets:
       - redis_server_pass
+    volumes:
+      - redis:/var/lib/redis
+    env_file:
+      - .env
     networks:
       - redisnetwork
     healthcheck:
       test: ["CMD-SHELL", "redis-healthcheck.sh"]
-      interval: 2s
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 2s
     restart: unless-stopped
   jupyterlab:
     container_name: jupyterlab
     build: ./requirements/bonus/jupyterlab
     image: jupyterlab
-    ports:
-      - 8888:8888
     volumes:
       - jupyterlab:/home/jupyterlab/working
     secrets:
@@ -144,11 +153,14 @@ services:
       - jupyterlab_user_pass
     env_file:
       - .env
+    networks:
+      - webnetwork_jupyterlab
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail -s localhost:8888 1>/dev/null"]
-      interval: 2s
+      test: ["CMD-SHELL", "curl --fail -s localhost:8888"]
+      interval: 10s
       timeout: 2s
-      retries: 30
+      retries: 3
+      start_period: 2s
     restart: unless-stopped
 
 networks:
@@ -170,6 +182,9 @@ networks:
   redisnetwork:
     name: redisnetwork
     driver: "bridge"
+  webnetwork_jupyterlab:
+    name: webnetwork_jupyterlab
+    driver: "bridge"
 
 volumes:
   wordpress:
@@ -187,6 +202,11 @@ volumes:
       type: local
       o: bind
       device: /home/amsaleh/data/adminer
+  redis:
+    driver_opts:
+      type: local
+      o: bind
+      device: /home/amsaleh/data/redis
   jupyterlab:
     driver_opts:
       type: local
