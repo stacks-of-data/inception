@@ -13,8 +13,12 @@ services:
     volumes:
       - wordpress:/var/www/wordpress
     secrets:
-      - nginx_private_key
-      - nginx_crt
+      - wordpress_crt
+      - wordpress_private_key
+      - adminer_crt
+      - adminer_private_key
+      - lab_crt
+      - lab_private_key
     env_file:
       - .env
     networks:
@@ -105,9 +109,6 @@ services:
     depends_on:
       wordpress:
         condition: service_healthy
-    secrets:
-      - nginx_private_key
-      - nginx_crt
     volumes:
       - adminer:/var/www/adminer
     env_file:
@@ -214,10 +215,18 @@ volumes:
 
 
 secrets:
-  nginx_crt:
+  wordpress_crt:
     file: ../secrets/amsaleh.42.fr.crt
-  nginx_private_key:
+  wordpress_private_key:
     file: ../secrets/amsaleh.42.fr.key
+  adminer_crt:
+    file: ../secrets/amsaleh.42.fr.adminer.crt
+  adminer_private_key:
+    file: ../secrets/amsaleh.42.fr.adminer.key
+  lab_crt:
+    file: ../secrets/amsaleh.42.fr.lab.crt
+  lab_private_key:
+    file: ../secrets/amsaleh.42.fr.lab.key
   mariadb_root_pass:
     file: ../secrets/mariadb_root_pass
   mariadb_wordpress_pass:
