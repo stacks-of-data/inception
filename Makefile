@@ -12,8 +12,8 @@ build:
 	@docker compose -f $(COMPOSE_FILE) build
 
 generate-secrets:
-	chmod +x generate_secrets.sh
-	./generate_secrets.sh
+	@chmod +x generate_secrets.sh
+	@./generate_secrets.sh
 
 create-volumes:
 	@mkdir -p /home/amsaleh/data/wordpress \
@@ -32,7 +32,7 @@ clean-volumes:
 
 clean-images:
 	@docker rmi -f nginx wordpress \
-	mariadb proftpd adminer redis jupyterlab
+		mariadb proftpd adminer redis jupyterlab
 
 clean-cache:
 	@docker system prune -f
