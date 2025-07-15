@@ -2,7 +2,7 @@
 
 set -e
 
-chown -R "$PROFTPD_LOGIN0_USERNAME":"$PROFTPD_GROUPNAME" /var/www/wordpress
+chgrp -R "$PROFTPD_GROUPNAME" /var/www/wordpress
 chmod -R 770 /var/www/wordpress
 
 LOGIN0_PASS=$(< /run/secrets/proftpd_login0_pass tr -d '\n')

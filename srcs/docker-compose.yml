@@ -150,7 +150,6 @@ services:
       - jupyterlab:/home/jupyterlab/working
     secrets:
       - jupyterlab_token
-      - jupyterlab_user_pass
     env_file:
       - .env
     networks:
@@ -233,5 +232,3 @@ secrets:
     file: ../secrets/redis_server_pass
   jupyterlab_token:
     file: ../secrets/jupyterlab_token
-  jupyterlab_user_pass:
-    file: ../secrets/jupyterlab_user_pass

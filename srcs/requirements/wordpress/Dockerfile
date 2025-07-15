@@ -7,7 +7,7 @@ ARG GID=10000
 ARG USERNAME="wordpress"
 ARG GROUPNAME="webserver"
 
-RUN ["apk", "add", "--no-cache", "php83-fpm", "php-phar", "php-mysqli", "mysql-client", "php-iconv", "php83-session", "php83-pecl-redis", "php83-tokenizer", "php83-ctype", "fcgi"]
+RUN ["apk", "add", "--no-cache", "php83-fpm", "php-phar", "php-mysqli", "mysql-client", "php-iconv", "php83-session", "php83-pecl-redis", "php83-tokenizer", "php83-ctype", "php83-xml", "fcgi"]
 RUN sed -i s/"memory_limit = 128M"/"memory_limit = 512M"/ /etc/php83/php.ini
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O wp \
     && chmod 100 wp

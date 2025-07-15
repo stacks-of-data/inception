@@ -8,7 +8,7 @@ WORDPRESS_ADMIN_PASS=$(< /run/secrets/wordpress_admin_pass tr -d '\n')
 WORDPRESS_USER0_PASS=$(< /run/secrets/wordpress_user0_pass tr -d '\n')
 REDIS_SERVER_PASS=$(< /run/secrets/redis_server_pass tr -d '\n')
 
-chown -R "$WORDPRESS_USERNAME":"$WORDPRESS_GROUPNAME" "$WORDPRESS_DIR"
+chgrp -R "$WORDPRESS_GROUPNAME" "$WORDPRESS_DIR"
 
 wordpress_install()
 {
